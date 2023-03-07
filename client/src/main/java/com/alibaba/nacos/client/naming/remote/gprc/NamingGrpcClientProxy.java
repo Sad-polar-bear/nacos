@@ -349,6 +349,7 @@ public class NamingGrpcClientProxy extends AbstractNamingClientProxy {
         return rpcClient.isRunning();
     }
     
+    // 真正发送gRPC请求
     private <T extends Response> T requestToServer(AbstractNamingRequest request, Class<T> responseClass)
             throws NacosException {
         try {
