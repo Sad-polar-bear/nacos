@@ -351,7 +351,8 @@ public class InstanceOperatorClientImpl implements InstanceOperator {
             // 会调用ClientManagerDelegate类中的clientConnected(String clientId, ClientAttributes attributes)，为什么会调用这个方法原因查看“clientManager对象实例的来源”
                  1、客户端通过gRPC协议与nacos服务端建连，因此ip端口客户端管理会走ephemeralIpPortClientManager对象（临时IP端口客户端管理对象）；
                  2、接下来逻辑会走到ephemeralIpPortClientManager对象的clientConnected方法，随后会一直沿着EphemeralIpPortClient类型初始化为clientFactory工厂（临时类型）；
-                 3、初始化针对客户端心跳上报，在nacos-server端开启健康检查的定时任务。
+                 3、初始化针对客户端心跳上报，在nacos-server端开启健康检查的定时任务；
+                 4、其中ClientFactory接口用到了SPI方式分别实现了：ConnectionBasedClientFactory、EphemeralIpPortClientFactory、PersistentIpPortClientFactory三种工厂类封装。
             clientManager.clientConnected(clientId, clientAttributes);
         }
     }
