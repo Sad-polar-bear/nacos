@@ -100,6 +100,10 @@ public class InstanceOperatorClientImpl implements InstanceOperator {
      */
     @Override
     public void registerInstance(String namespaceId, String serviceName, Instance instance) throws NacosException {
+        // 检查实例对象成员属性字段值是否合法：
+             1、心跳上报周期必须小于心跳上报超时，且必须小于ip删除超时
+             2、集群名称不为空字符串时，必须满足命名规则：0-9a-zA-Z-
+             上述两类检查不通过时，则抛出Exception异常
         NamingUtils.checkInstanceIsLegal(instance);
         
         boolean ephemeral = instance.isEphemeral();
