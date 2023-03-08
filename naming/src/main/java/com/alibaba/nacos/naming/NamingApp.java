@@ -25,6 +25,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *
  * @author xxc
  */
+// 启动一些定时任务：
+     1、统计服务每30s的变化数量；
+     2、统计服务每周的变化数量；
+     3、每秒刷新一次metrics数据；
+     4、每15s执行一次metrics数据采集。
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {"com.alibaba.nacos.naming", "com.alibaba.nacos.core"})
 public class NamingApp {
