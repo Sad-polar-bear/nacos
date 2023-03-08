@@ -348,6 +348,7 @@ public class InstanceOperatorClientImpl implements InstanceOperator {
             } else {
                 clientAttributes = new ClientAttributes();
             }
+            // 
             clientManager.clientConnected(clientId, clientAttributes);
         }
     }
