@@ -106,8 +106,11 @@ public class InstanceOperatorClientImpl implements InstanceOperator {
              上述两类检查不通过时，则抛出Exception异常
         NamingUtils.checkInstanceIsLegal(instance);
         
+        // 实例注册是否是“临时”类型。客户端通过gRPC协议注册默认为“临时”类型
         boolean ephemeral = instance.isEphemeral();
+        // 字符串拼接，形如：192.168.0.100:8000#true。其中true代表注册是否为“临时”类型
         String clientId = IpPortBasedClient.getClientId(instance.toInetAddr(), ephemeral);
+        // 为每个连接到nacos-server的client创建客户端管理对象。（这个方法较复杂，请跳转到具体方法查看源码解读）
         createIpPortClientIfAbsent(clientId);
         Service service = getService(namespaceId, serviceName, ephemeral);
         clientOperationService.registerInstance(service, instance, clientId);
@@ -332,7 +335,13 @@ public class InstanceOperatorClientImpl implements InstanceOperator {
     }
     
     private void createIpPortClientIfAbsent(String clientId) {
+        // 这里详细说明clientManager对象实例的来源：
+             1、在当前InstanceOperatorClientImpl类的成员属性中定义了clientManager类型是ClientManager接口类型的；
+             2、在InstanceOperatorClientImpl类的显示构造方法中传递了一个ClientManager接口类型作为入参。 public InstanceOperatorClientImpl(ClientManagerDelegate clientManager, ...)；
+             3、那么在哪里初始化InstanceOperatorClientImpl这个类就成为了解开clientManager这个实例来源的关键线索。查询gRPC控制器发现InstanceControllerV2类中，通过@Autowired标准自动装载了 private InstanceOperatorClientImpl instanceServiceV2 这个类成员属性；
+             4、通过上述代码走读分析，可以确认clientManager对象实例是被spring的@Autowired注解方法自动实例化成的一个类实例对象
         if (!clientManager.contains(clientId)) {
+            // 连接到nacos-server的client如果未被加入到客户端管理中，则为该client初始化客户端管理逻辑
             ClientAttributes clientAttributes;
             if (ClientAttributesFilter.threadLocalClientAttributes.get() != null) {
                 clientAttributes = ClientAttributesFilter.threadLocalClientAttributes.get();
