@@ -72,6 +72,7 @@ public abstract class BaseRpcServer {
      *
      * @throws Exception exception throw if start server fail.
      */
+    // rpc类的协议，当前Nacos只实现了gRPC协议，所以该基础类只会被gRPC继承
     public abstract void startServer() throws Exception;
     
     /**
