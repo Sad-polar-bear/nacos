@@ -62,6 +62,7 @@ public abstract class BaseGrpcServer extends BaseRpcServer {
         return ConnectionType.GRPC;
     }
     
+    // gRPC启动方法
     @Override
     public void startServer() throws Exception {
         final MutableHandlerRegistry handlerRegistry = new MutableHandlerRegistry();
@@ -112,6 +113,7 @@ public abstract class BaseGrpcServer extends BaseRpcServer {
                 .setRequestMarshaller(ProtoUtils.marshaller(Payload.getDefaultInstance()))
                 .setResponseMarshaller(ProtoUtils.marshaller(Payload.getDefaultInstance())).build();
         
+        // 核心逻辑：初始化gRPC一元请求的路由、处理方法逻辑
         final ServerCallHandler<Payload, Payload> payloadHandler = ServerCalls
                 .asyncUnaryCall((request, responseObserver) -> grpcCommonRequestAcceptor.request(request, responseObserver));
         
@@ -121,6 +123,7 @@ public abstract class BaseGrpcServer extends BaseRpcServer {
         handlerRegistry.addService(ServerInterceptors.intercept(serviceDefOfUnaryPayload, serverInterceptor));
         
         // bi stream register.
+        // 核心逻辑：初始化gRPC流式请求的路由、处理方法逻辑
         final ServerCallHandler<Payload, Payload> biStreamHandler = ServerCalls.asyncBidiStreamingCall(
                 (responseObserver) -> grpcBiStreamRequestAcceptor.requestBiStream(responseObserver));
         
