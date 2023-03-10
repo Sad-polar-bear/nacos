@@ -62,6 +62,7 @@ public class InstanceRequestHandler extends RequestHandler<InstanceRequest, Inst
         }
     }
     
+    // gRPC方式通信，只能以临时的方式注册
     private InstanceResponse registerInstance(Service service, InstanceRequest request, RequestMeta meta)
             throws NacosException {
         clientOperationService.registerInstance(service, request.getInstance(), meta.getConnectionId());
