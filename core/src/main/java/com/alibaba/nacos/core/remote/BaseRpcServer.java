@@ -39,6 +39,7 @@ public abstract class BaseRpcServer {
     /**
      * Start sever.
      */
+    // 在Bean注解初始化完之后装载该类方法。用于启动gRPC服务端一元调用、流式调用服务端口监听
     @PostConstruct
     public void start() throws Exception {
         String serverName = getClass().getSimpleName();
