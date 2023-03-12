@@ -54,7 +54,7 @@ public abstract class BaseGrpcServer extends BaseRpcServer {
     @Autowired
     private GrpcBiStreamRequestAcceptor grpcBiStreamRequestAcceptor;
     
-    // 用户管理client与server之间建立的长连接
+    // 用户管理client与server之间建立的长连接。在nacos中只有建立了双向流的连接才会被纳入到管理之中
     @Autowired
     private ConnectionManager connectionManager;
     
