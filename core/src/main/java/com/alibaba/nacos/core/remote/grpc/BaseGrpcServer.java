@@ -69,6 +69,7 @@ public abstract class BaseGrpcServer extends BaseRpcServer {
         
         addServices(handlerRegistry, new GrpcConnectionInterceptor());
         
+        // 为每一个连接设置连接属性
         server = ServerBuilder.forPort(getServicePort()).executor(getRpcExecutor())
                 .maxInboundMessageSize(getMaxInboundMessageSize()).fallbackHandlerRegistry(handlerRegistry)
                 .compressorRegistry(CompressorRegistry.getDefaultInstance())
