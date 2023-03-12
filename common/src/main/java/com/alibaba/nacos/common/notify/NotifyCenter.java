@@ -42,6 +42,9 @@ import static com.alibaba.nacos.api.exception.NacosException.SERVER_ERROR;
  * @author <a href="mailto:liaochuntao@live.com">liaochuntao</a>
  * @author zongtanghu
  */
+// 用来发布一些消息，如服务注册，服务断线等等
+// 比如一个服务注册的事件，客户端调用nacos服务端的接口，这时候nacos服务端会触发NotifyCenter的事件发布方法，
+// 然后会有一个对应这个事件的事件发布者对当前事件进行一个广播，广播给注册了这个事件的事件订阅者们Scriber。
 public class NotifyCenter {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(NotifyCenter.class);
