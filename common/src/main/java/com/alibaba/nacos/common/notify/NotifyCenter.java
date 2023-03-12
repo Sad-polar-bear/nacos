@@ -66,6 +66,8 @@ public class NotifyCenter {
     /**
      * Publisher management container.
      */
+    // key为Event抽象类的子类，value为事件发布者
+    // key形如：com.alibaba.nacos.naming.core.v2.event.client.ClientEvent.ClientDisconnectEvent，是事件类的class全限定类名
     private final Map<String, EventPublisher> publisherMap = new ConcurrentHashMap<>(16);
     
     static {
