@@ -54,6 +54,7 @@ public abstract class BaseGrpcServer extends BaseRpcServer {
     @Autowired
     private GrpcBiStreamRequestAcceptor grpcBiStreamRequestAcceptor;
     
+    // 用户管理client与server之间建立的长连接
     @Autowired
     private ConnectionManager connectionManager;
     
