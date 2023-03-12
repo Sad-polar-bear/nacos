@@ -67,7 +67,8 @@ public class NotifyCenter {
      * Publisher management container.
      */
     // key为Event抽象类的子类，value为事件发布者
-    // key形如：com.alibaba.nacos.naming.core.v2.event.client.ClientEvent.ClientDisconnectEvent，是事件类的class全限定类名
+    // key形如：com.alibaba.nacos.naming.core.v2.event.client.ClientEvent.ClientDisconnectEvent，是事件类的class全限定类名。
+    // value类型为EventPublisher。EventPublisher类包含了一个阻塞队列并维护了一套事件类型与订阅者的映射关系，通过消费队列中的消息将消息发布给所有的订阅者，订阅者负责事件的处理工作。
     private final Map<String, EventPublisher> publisherMap = new ConcurrentHashMap<>(16);
     
     static {
